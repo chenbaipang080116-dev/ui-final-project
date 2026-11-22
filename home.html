@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>我們的小組</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E👋%3C/text%3E%3C/svg%3E">
+
+  <style>
+    /* 點目錄時平滑捲動 */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial,sans-serif;
+      background-color: #F4F7F6;
+      margin: 0;
+      color:#333;
+    }
+
+    header {
+      background-color: #356B78;
+      color:white;
+      text-align:center;
+      padding: 25px;
+    }
+
+    nav {
+        background-color: #244c57;
+        text-align: center;
+        padding:15px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 15px;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+        color:#F4D35E;
+    }
+
+    /* 專題目錄 */
+    .section-nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 12px;
+      background: #356B78;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .section-nav a {
+      color: white;
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      transition: background 0.3s, color 0.3s, transform 0.3s;
+    }
+
+    .section-nav a:hover,
+    .section-nav a.active {
+      background: #F4D35E;
+      color: #244c57;
+      transform: translateY(-2px);
+    }
+
+    .card {
+      background-color: white;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 10px;
+      width:85%;
+      max-width: 1000px; /* 大螢幕時不要太寬，和組員1頁面一致 */
+      box-sizing: border-box;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+      scroll-margin-top: 70px; /* 跳轉時不要被目錄擋住 */
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    /* 捲動淡入動畫 */
+    .card.reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease, box-shadow 0.3s;
+    }
+
+    .card.reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card.reveal.show:hover {
+      transform: translateY(-5px);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    h2 {
+      color: #356B78;
+    }
+
+    img {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 8px;
+        transition: transform 0.4s, box-shadow 0.4s;
+    }
+
+    .card img:hover {
+        transform: scale(1.02);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #999;
+        padding: 10px;
+        text-align: center;
+        transition: background 0.3s;
+    }
+
+    th {
+        background-color: #356B78;
+        color: white;
+    }
+
+    tr:hover td {
+        background-color: #FFF6DC;
+    }
+
+    .color {
+        width: 100px;
+        height: 60px;
+        display: inline-block;
+        margin: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .color:hover {
+        transform: scale(1.15) rotate(-3deg);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+    }
+
+    /* 回到頂部按鈕 */
+    .back-to-top {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+        text-align: center;
+        font-size: 22px;
+        color: #244c57;
+        background: #F4D35E;
+        border-radius: 50%;
+        text-decoration: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .back-to-top.visible {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .back-to-top:hover {
+        transform: translateY(-4px);
+    }
+
+    footer {
+        background-color: #244c57;
+        color: white;
+        text-align: center;
+        padding: 15px;
+    }
+
+    /* 系統設定「減少動態效果」時關閉動畫 */
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+            animation: none !important;
+            transition: none !important;
+        }
+
+        .card.reveal {
+            opacity: 1;
+            transform: none;
+        }
+    }
+  </style>
+</head>
+
+<body>
+
+<header id="top">
+    <h1>我們的小組</h1>
+    <p>我和我的組員專頁</p>
+</header>
+
+
+<nav>
+    <a href="home.html">首頁</a>
+    <a href="member1.html">組員1</a>
+    <a href="http://ningxuetvt.github.io/ningxue-minecraft-website/" target="_blank">組員2</a>
+</nav>
+
+<!--專題目錄：點擊跳轉到各區塊-->
+<div class="section-nav">
+    <a href="#intro">小組介紹</a>
+    <a href="#work">組員分工表</a>
+    <a href="#colors">網站色彩規劃</a>
+</div>
+
+<div class="card" id="intro">
+    <h2>小組介紹</h2>
+    <p>
+      大家好！我們是一個由兩位同學組成的小組。
+      這個網站主要介紹我們的興趣、個性、嗜好和生活特色，
+        希望透過這個網站讓大家更加認識我們。
+    </p>
+</div>
+
+<div class="card" id="work">
+    <h2>組員分工表</h2>
+    <table>
+        <tr>
+            <th>組員</th>
+            <th>負責内容</th>
+        </tr>
+        <tr>
+            <td>組員1</td>
+            <td>首頁設計、個人介紹</td>
+        </tr>
+        <tr>
+            <td>組員2</td>
+            <td>小組資料、個人介紹</td>
+        </tr>
+    </table>
+</div>
+
+<div class="card" id="colors">
+    <h2>網站色彩規劃</h2>
+    <p>
+        本網站使用藍綠色系作為主色調，搭配白色背景，營造出清新、專業的感覺。
+    </p>
+
+    <h3>配色色票</h3>
+
+    <div class="color"
+ style="background-color: #356B78;"></div>
+    <P>主色：藍綠色 #356B78</P>
+
+    <div class="color" style="background-color: #244c57;"></div>
+    <P>次色：深藍色 #244c57</P>
+
+    <div class="color" style="background-color: #F4F7F6;"></div>
+    <P>輔色：淺灰色 #F4F7F6</P>
+
+    <h3>色彩使用說明</h3>
+    <p>1.一致性：網站整體色彩應保持一致，避免使用過多不同顏色，以維持專業感。</p>
+    <p>2.簡單易用：選擇簡單、易於辨識的顏色，避免使用過於鮮豔或刺眼的顏色，以提升使用者體驗。</p>
+    <p>3.美觀簡潔：色彩搭配應簡單、清晰，避免過於複雜或混亂的配色，以提升網站美觀度。</p>
+    <p>4.接近性：色彩應接近主題，避免使用與主題不相關的顏色，以維持網站整體風格。</p>
+</div>
+
+<!--回到頂部按鈕-->
+<a href="#top" class="back-to-top" aria-label="回到頂部">↑</a>
+
+<footer>
+    <p>我們的小組專頁 &copy; 2026</p>
+</footer>
+
+<script>
+  // 捲動到區塊時淡入
+  const cards = document.querySelectorAll('.card');
+  const navLinks = document.querySelectorAll('.section-nav a');
+
+  cards.forEach(card => card.classList.add('reveal'));
+
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  cards.forEach(card => revealObserver.observe(card));
+
+  // 目前看到的區塊，目錄對應的按鈕會亮起
+  const activeObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+
+  cards.forEach(card => activeObserver.observe(card));
+
+  // 往下捲一段距離後才顯示「回到頂部」按鈕
+  const backToTop = document.querySelector('.back-to-top');
+  window.addEventListener('scroll', () => {
+    backToTop.classList.toggle('visible', window.scrollY > 300);
+  });
+</script>
+
+</body>
+</html>

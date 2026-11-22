@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+  <title>個人介紹|我的個人專頁</title>
+  <link rel="icon"href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+ <!--頂部導覽列-->
+ <header id="top">
+   <h1>MY PROFILE</h1>
+   <nav>
+    <a href="home.html">首頁</a>
+    <a href="member1.html">組員1介紹</a>
+    <a href="15751945/index.html">組員1舊的自我介紹</a>
+    <a href="https://ningxuetvt.github.io/ningxue-minecraft-website/" target="_blank">組員2介紹</a>
+   </nav>
+ </header>
+
+ <!--專題目錄：點擊跳轉到各區塊-->
+ <nav class="section-nav">
+   <a href="#about">關於我</a>
+   <a href="#info">基本資料</a>
+   <a href="#hobby">興趣收藏</a>
+   <a href="#music">喜歡的音樂</a>
+   <a href="#goal">學習目標</a>
+   <a href="#contact">交友聯絡</a>
+ </nav>
+
+
+<!--個人介紹-->
+<div class="container">
+
+    <section class="card profile" id="about">
+        <img src="avatar.jpg"alt="個人頭像">
+        <div>
+            <h2>你好，我是陳柏康</h2>
+            <p>歡迎來到我的個人介紹頁面</p>
+            <p>我是人智一丙的學生，喜歡接觸新事物，也對科技領域充滿興趣。</p>
+        </div>
+    </section>
+
+    <section class="card" id="info">
+        <h2>個人基本資料</h2>
+        <table>
+            <tr>
+                <th>姓名</th>
+                <td>陳柏康</td>
+            </tr>
+            <tr>
+                <th>學校</th>
+                <td>銘傳大學</td>
+            </tr>
+            <tr>
+                <th>科系</th>
+                <td>人工智能應用學系</td>
+            </tr>
+            <tr>
+                <th>年級</th>
+                <td>大一</td>
+            </tr>
+        </table>
+    </section>
+
+    <section class="card" id="hobby">
+        <h2>我的興趣與收藏</h2>
+         <p>平時喜歡收藏模型,玩電腦游戲,也喜歡運動,比如,打籃球和健身。</p>
+
+         <div class="hobby">
+           <img src="model1.jpg" alt="模型收藏">
+           <img src="model2.jpg" alt="模型展示">
+         </div>
+    </section>
+
+    <section class="card" id="music">
+        <h2>我喜歡的音樂</h2>
+        <p>閒暇時喜歡聽音樂放鬆，以下是我很喜歡的幾首歌，點擊就可以到 YouTube 收聽：</p>
+
+        <ul class="music-list">
+            <li>
+                <a href="https://youtu.be/nPcByqGfxQo" target="_blank">
+                    <span class="music-icon">▶</span>
+                    <span class="music-info">
+                        <strong>100種生活</strong>
+                        <small>盧廣仲</small>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="https://youtu.be/Rvj-o2fNFWk" target="_blank">
+                    <span class="music-icon">▶</span>
+                    <span class="music-info">
+                        <strong>顏色</strong>
+                        <small>Gareth.T</small>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="https://youtu.be/9VWj8UH5R2g" target="_blank">
+                    <span class="music-icon">▶</span>
+                    <span class="music-info">
+                        <strong>Simple Things</strong>
+                        <small>Usher</small>
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </section>
+
+    <section class="card" id="goal">
+        <h2>未來學習目標</h2>
+        <p>希望能夠提升自己的程式設計能力，學習人工智慧相關技術，為未來的工作做好準備。</p>
+    </section>
+
+    <section class="card" id="contact">
+        <h2>交友聯絡</h2>
+        <p>歡迎一起交流模型、遊戲、運動或程式相關的話題！可以掃描下方 QR Code 加我 LINE 好友。</p>
+
+        <div class="line">
+          <img src="line.jpg" alt="LINE 加好友 QR Code">
+          <p>使用 LINE 掃描 QR Code 加入好友</p>
+        </div>
+    </section>
+
+</div>
+
+<!--回到頂部按鈕-->
+<a href="#top" class="back-to-top" aria-label="回到頂部">↑</a>
+
+<footer>
+    <p>MY PROFILE | 個人介紹</p>
+    <a href="home.html">返回小組首頁</a>
+</footer>
+
+<script>
+  // 捲動到區塊時淡入
+  const cards = document.querySelectorAll('.card');
+  const navLinks = document.querySelectorAll('.section-nav a');
+
+  cards.forEach(card => card.classList.add('reveal'));
+
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  cards.forEach(card => revealObserver.observe(card));
+
+  // 目前看到的區塊，目錄對應的按鈕會亮起
+  const activeObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+
+  cards.forEach(card => activeObserver.observe(card));
+
+  // 往下捲一段距離後才顯示「回到頂部」按鈕
+  const backToTop = document.querySelector('.back-to-top');
+  window.addEventListener('scroll', () => {
+    backToTop.classList.toggle('visible', window.scrollY > 300);
+  });
+</script>
+
+</body>
+</html>
